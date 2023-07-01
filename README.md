@@ -1,2 +1,2 @@
-# git_memoire
- Espace GitHub dédié aux travaux réalisés dans le cadre de mon mémoire
+# Ressources et outils pour l'évaluation des systèmes de simplification automatique des textes
+ Espace GitHub dédié à l'outil reposant sur TUPA | SAMSA | EASSE pour annoter et évaluer automatiquement la simplification opérée sur un texte en français.
