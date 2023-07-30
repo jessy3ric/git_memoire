@@ -1,21 +1,21 @@
 from setuptools import setup, find_packages
 
 
-with open("README.md", "r", encoding='utf-8') as f:
+with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-with open("requirements.txt", "r", encoding='utf-8') as f:
+with open("requirements.txt", "r", encoding="utf-8") as f:
     requirements = f.read().strip().split("\n")
 
 
 setup(
-    name="easse",
-    version="0.2.4",
-    description="Easier Automatic Sentence Simplification Evaluation",
+    name="simpeval",
+    version="0.1.0",
+    description="Evaluation of text simplification with TUPA and SAMSA",
     long_description=long_description,
     long_description_content_type="text/markdown",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
         "Environment :: Console",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
@@ -23,8 +23,8 @@ setup(
         "Topic :: Text Processing :: Linguistic",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    author="Fernando Alva-Manchego <feralvam@gmail.com>, Louis Martin <louismartincs@gmail.com>",
-    url="https://github.com/feralvam/easse",
+    author="Fernando Alva-Manchego <feralvam@gmail.com>, Louis Martin <louismartincs@gmail.com>, Jessy Nierichlo <jessynchl@gmail.com>,",
+    url="https://github.com/jessy3ric/git_memoire/tree/main/annotation_tool",
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     test_suite="tests",

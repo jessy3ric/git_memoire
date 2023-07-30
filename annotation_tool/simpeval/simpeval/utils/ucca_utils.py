@@ -3,16 +3,12 @@ from functools import lru_cache
 import sys
 from typing import List
 
-try:
-    from tupa.parse import Parser
-except ImportError as e:
-    # We don't install tupa by default because it requires the ucca package which hardcodes the spacy version to the old 2.1.3
-    print("tupa package is not installed. Please install it with `pip install tupa`")
-    raise e
+from tupa.parse import Parser
+
 from ucca.core import Passage
 import ucca.convert
 
-from easse.utils.constants import UCCA_PARSER_PATH
+from easse.utils.constants import UCCA_PARSER_PATH, UCCA_BERT_PARSER_PATH
 from easse.utils.resources import dowload_ucca_model, update_ucca_path
 
 
@@ -26,19 +22,25 @@ def mock_sys_argv(argv):
 
 @lru_cache(maxsize=1)
 def get_parser(use_bert=False):
-    if not UCCA_PARSER_PATH.parent.exists():
+    if not UCCA_PARSER_PATH.parent.exists() and use_bert is False:
+        dowload_ucca_model()
+    elif not UCCA_BERT_PARSER_PATH.parent.exists() and use_bert is True:
         dowload_ucca_model(use_bert=use_bert)
     update_ucca_path()
     with mock_sys_argv([""]):
         # Need to mock sysargs otherwise the parser will use try to use them and throw an exception
-        return Parser(str(UCCA_PARSER_PATH))
+        return (
+            Parser(str(UCCA_PARSER_PATH))
+            if use_bert is False
+            else Parser(str(UCCA_BERT_PARSER_PATH))
+        )
 
 
-def ucca_parse_texts(texts: List[str]):
+def ucca_parse_texts(texts: List[str], use_bert=False):
     passages = []
     for text in texts:
         passages += list(ucca.convert.from_text(text.split(), tokenized=True))
-    parser = get_parser()
+    parser = get_parser(use_bert=use_bert)
     parsed_passages = [
         passage for (passage, *_) in parser.parse(passages, display=False)
     ]

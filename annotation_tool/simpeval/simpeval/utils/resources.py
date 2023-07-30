@@ -7,11 +7,16 @@ from urllib.request import urlretrieve
 import warnings
 import zipfile
 import stanza
+import importlib
+
 
 from easse.utils.constants import (
     STANFORD_CORENLP_DIR,
     UCCA_DIR,
+    TOOLS_DIR,
     UCCA_PARSER_PATH,
+    UCCA_BERT_PARSER_PATH,
+    UCCA_BERT_DIR,
     TEST_SETS_PATHS,
     SYSTEM_OUTPUTS_DIRS_MAP,
 )
@@ -64,17 +69,24 @@ def download_stanford_corenlp():
 
 def update_ucca_path(use_bert=False):
     # HACK: Change vocab_path from relative to absolute path
-    json_path = str(UCCA_PARSER_PATH) + ".nlp.json"
+    if use_bert:
+        url = "https://github.com/jessy3ric/git_memoire/blob/main/utils/vocab.zip?raw=true"
+        temp_filepath = get_temp_filepath(create=True)
+        download_zip_file(url, temp_filepath)
+        unzip(temp_filepath, UCCA_BERT_DIR)
+
+    json_path = (
+        str(UCCA_PARSER_PATH) + ".nlp.json"
+        if not use_bert
+        else str(UCCA_BERT_PARSER_PATH) + ".nlp.json"
+    )
     with open(json_path, "r") as f:
         config_json = json.load(f)
-
-    if use_bert:
-        download_zip_file(
-            "https://github.com/jessy3ric/git_memoire/blob/main/utils/vocab.zip",
-            UCCA_DIR,
-        )
-        unzip(UCCA_DIR / "vocab.zip", UCCA_DIR)
-    config_json["vocab"] = str(UCCA_DIR / "vocab/fr_core_news_md.csv")
+    config_json["vocab"] = (
+        str(UCCA_DIR / "vocab/fr_core_news_md.csv")
+        if not use_bert
+        else str(UCCA_BERT_DIR / "vocab/fr_core_news_md.csv")
+    )
     with open(json_path, "w") as f:
         json.dump(config_json, f)
 
@@ -85,8 +97,12 @@ def dowload_ucca_model(use_bert=False):
         url = "https://github.com/huji-nlp/tupa/releases/download/v1.4.0/bert_multilingual_layers_4_layers_pooling_weighted_align_sum.tar.gz"
     temp_filepath = get_temp_filepath(create=True)
     download(url, temp_filepath)
-    UCCA_DIR.mkdir(parents=True, exist_ok=True)
-    untar(temp_filepath, UCCA_DIR)
+    UCCA_DIR.mkdir(
+        parents=True, exist_ok=True
+    ) if not use_bert else UCCA_BERT_DIR.mkdir(parents=True, exist_ok=True)
+    untar(temp_filepath, UCCA_DIR) if not use_bert else untar(
+        temp_filepath, UCCA_BERT_DIR
+    )
     update_ucca_path(use_bert=use_bert)
 
 

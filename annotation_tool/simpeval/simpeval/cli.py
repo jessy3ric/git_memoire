@@ -162,6 +162,7 @@ def evaluate_system_output(
             tokenizer=tokenizer,
             lowercase=lowercase,
             verbose=True,
+            use_bert=use_bert,
         )
 
     return metrics_scores

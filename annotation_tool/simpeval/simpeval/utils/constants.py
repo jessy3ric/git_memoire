@@ -8,7 +8,13 @@ TOOLS_DIR = RESOURCES_DIR / "tools"
 DATA_DIR = RESOURCES_DIR / "data"
 STANFORD_CORENLP_DIR = TOOLS_DIR / "stanford-corenlp-full-2023-03-15"
 UCCA_DIR = TOOLS_DIR / "ucca-bilstm-1.3.10-fr"
+UCCA_BERT_DIR = (
+    TOOLS_DIR / "bert_multilingual_layers_4_layers_pooling_weighted_align_sum"
+)
 UCCA_PARSER_PATH = UCCA_DIR / "models/ucca-bilstm-fr"
+UCCA_BERT_PARSER_PATH = (
+    UCCA_BERT_DIR / "bert_multilingual_layers_4_layers_pooling_weighted_align_sum"
+)
 TEST_SETS_PATHS = {
     ("asset_test", "orig"): DATA_DIR / f"test_sets/asset/asset.test.orig",
     ("asset_test", "refs"): [
