@@ -125,12 +125,12 @@ def syntactic_parse_texts(
     ]
     if with_constituency_parse:
         corenlp_annotators.append("parse")
+
     annotators_properties = {
         "tokenize.whitespace": not tokenize,
         "ssplit.eolonly": not sentence_split,
-        "language": "french",
-        "outputFormat": "json",
     }
+
     if not STANFORD_CORENLP_DIR.exists():
         download_stanford_corenlp()
 
@@ -140,7 +140,7 @@ def syntactic_parse_texts(
 
     with CoreNLPClient(
         annotators=corenlp_annotators,
-        properties=annotators_properties,
+        properties="french",
         timeout=15000,
         memory="6G",
         endpoint="http://localhost:9000",
@@ -151,7 +151,7 @@ def syntactic_parse_texts(
         for text in tqdm(texts, disable=(not verbose)):
             if isinstance(text, List):
                 text = " ".join(text)
-            raw_parse_result = client.annotate(text)
+            raw_parse_result = client.annotate(text, properties=annotators_properties)
             parse_result = format_parser_output(raw_parse_result["sentences"])
             if len(parse_result["sentences"]) > 1 and not sentence_split:
                 parse_result = join_parse_result(parse_result)
