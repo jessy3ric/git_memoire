@@ -1,11 +1,11 @@
-from typing import List
 import os
+from typing import List
 
-from stanfordnlp.server import CoreNLPClient
+from stanza.server import CoreNLPClient
 from tqdm import tqdm
 
-from easse.utils.resources import download_stanford_corenlp
 from easse.utils.constants import STANFORD_CORENLP_DIR
+from easse.utils.resources import download_stanford_corenlp
 
 
 def _format_token_info(sent_json):
@@ -47,7 +47,9 @@ def _collapse_dependencies(dependency_parse):
         dependent = dep_node["dependent"]
 
         if dep_rel == "prep":
-            aux_dep_node_index = _get_depnode_index(dep_node["dependent"], dependency_parse)
+            aux_dep_node_index = _get_depnode_index(
+                dep_node["dependent"], dependency_parse
+            )
             if aux_dep_node_index:
                 dep_rel += f"_{dep_node['dependentGloss']}"
                 aux_dep_node = dependency_parse[aux_dep_node_index]
@@ -95,7 +97,9 @@ def format_parser_output(sentence_parse):
             sent_formatted["words"].append((word, attributes))
 
         sent_formatted["text"] = " ".join([word for word, _ in sent_formatted["words"]])
-        sent_formatted["dependencies"] = _collapse_dependencies(sent_json["basicDependencies"])
+        sent_formatted["dependencies"] = _collapse_dependencies(
+            sent_json["basicDependencies"]
+        )
         if "parse" in sent_json:
             sent_formatted["parse"] = sent_json["parse"]
 
@@ -124,11 +128,12 @@ def syntactic_parse_texts(
     annotators_properties = {
         "tokenize.whitespace": not tokenize,
         "ssplit.eolonly": not sentence_split,
-        "depparse.model": "edu/stanford/nlp/models/parser/nndep/english_SD.gz",
+        "language": "french",
         "outputFormat": "json",
     }
     if not STANFORD_CORENLP_DIR.exists():
         download_stanford_corenlp()
+
     os.environ["CORENLP_HOME"] = str(STANFORD_CORENLP_DIR)
 
     parse_results = []
@@ -136,6 +141,11 @@ def syntactic_parse_texts(
     with CoreNLPClient(
         annotators=corenlp_annotators,
         properties=annotators_properties,
+        timeout=15000,
+        memory="6G",
+        endpoint="http://localhost:9000",
+        output_format="json",
+        be_quiet=not verbose,
         threads=40,
     ) as client:
         for text in tqdm(texts, disable=(not verbose)):
@@ -143,14 +153,11 @@ def syntactic_parse_texts(
                 text = " ".join(text)
             raw_parse_result = client.annotate(text)
             parse_result = format_parser_output(raw_parse_result["sentences"])
-
             if len(parse_result["sentences"]) > 1 and not sentence_split:
                 parse_result = join_parse_result(parse_result)
             elif sentence_split:
                 parse_result = split_parse_result(parse_result["sentences"])
-
             parse_results.append(parse_result)
-
     return parse_results
 
 
@@ -165,12 +172,12 @@ def join_parse_result(parseResult):
     wordOffset = 0
 
     for i in range(len(parseResult["sentences"])):
-
         if i > 0:
             for j in range(len(parseResult["sentences"][i]["dependencies"])):
-
                 for k in range(1, 3):
-                    tokens = parseResult["sentences"][i]["dependencies"][j][k].split("-")
+                    tokens = parseResult["sentences"][i]["dependencies"][j][k].split(
+                        "-"
+                    )
                     if tokens[0] == "ROOT":
                         newWordIndex = 0
                     else:
@@ -180,14 +187,18 @@ def join_parse_result(parseResult):
                             continue
                         newWordIndex = int(tokens[len(tokens) - 1]) + wordOffset
                     if len(tokens) == 2:
-                        parseResult["sentences"][i]["dependencies"][j][k] = tokens[0] + "-" + str(newWordIndex)
+                        parseResult["sentences"][i]["dependencies"][j][k] = (
+                            tokens[0] + "-" + str(newWordIndex)
+                        )
                     else:
                         w = ""
                         for l in range(len(tokens) - 1):
                             w += tokens[l]
                             if l < len(tokens) - 2:
                                 w += "-"
-                        parseResult["sentences"][i]["dependencies"][j][k] = w + "-" + str(newWordIndex)
+                        parseResult["sentences"][i]["dependencies"][j][k] = (
+                            w + "-" + str(newWordIndex)
+                        )
 
         wordOffset += len(parseResult["sentences"][i]["words"])
 
@@ -228,7 +239,6 @@ def nerWordAnnotator(parseResult):
 
 
 def ner(parseResult):
-
     nerWordAnnotations = nerWordAnnotator(parseResult)
 
     namedEntities = []
@@ -237,7 +247,6 @@ def ner(parseResult):
     currentWordOffsets = []
 
     for i in range(len(nerWordAnnotations)):
-
         if i == 0:
             currentNE.append(nerWordAnnotations[i][2])
             currentCharacterOffsets.append(nerWordAnnotations[i][0])
@@ -298,7 +307,6 @@ def ner(parseResult):
 
 
 def posTag(parseResult):
-
     res = []
 
     wordIndex = 1
@@ -435,13 +443,18 @@ def findParents(dependencyParse, wordIndex, word):
         if nextIndex == 0:
             return []  # ?
         for i in range(len(dependencyParse)):
-            if int(dependencyParse[i][2].split("{")[1].split("}")[0].split(" ")[2]) == nextIndex:
+            if (
+                int(dependencyParse[i][2].split("{")[1].split("}")[0].split(" ")[2])
+                == nextIndex
+            ):
                 pos = i
                 break
         for i in range(pos, len(dependencyParse)):
             if "_" in dependencyParse[i][0] and word in dependencyParse[i][0]:
                 parent = [
-                    int(dependencyParse[i][1].split("{")[1].split("}")[0].split(" ")[2]),
+                    int(
+                        dependencyParse[i][1].split("{")[1].split("}")[0].split(" ")[2]
+                    ),
                     dependencyParse[i][1].split("{")[0],
                     dependencyParse[i][0],
                 ]
@@ -495,13 +508,18 @@ def findChildren(dependencyParse, wordIndex, word):
         if nextIndex == 0:
             return []
         for i in range(len(dependencyParse)):
-            if int(dependencyParse[i][2].split("{")[1].split("}")[0].split(" ")[2]) == nextIndex:
+            if (
+                int(dependencyParse[i][2].split("{")[1].split("}")[0].split(" ")[2])
+                == nextIndex
+            ):
                 pos = i
                 break
         for i in range(pos, len(dependencyParse)):
             if "_" in dependencyParse[i][0] and word in dependencyParse[i][0]:
                 child = [
-                    int(dependencyParse[i][2].split("{")[1].split("}")[0].split(" ")[2]),
+                    int(
+                        dependencyParse[i][2].split("{")[1].split("}")[0].split(" ")[2]
+                    ),
                     dependencyParse[i][2].split("{")[0],
                     dependencyParse[i][0],
                 ]

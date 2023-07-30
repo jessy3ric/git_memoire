@@ -93,26 +93,22 @@ def common_options(function):
 @cli.command("evaluate")
 @common_options
 @click.option(
-    "--analysis",
-    "-a",
-    is_flag=True,
-    help=f"Perform word-level transformation analysis.",
-)
-@click.option(
-    "--quality_estimation",
-    "-q",
-    is_flag=True,
-    help="Compute quality estimation features.",
-)
-@click.option(
     "--sys_sents_path",
     "-i",
     type=click.Path(),
     default=None,
     help="Path to the system predictions input file that is to be evaluated.",
 )
+@click.option(
+    "--use-bert",
+    "-uB",
+    is_flag=True,
+    default=False,
+    help="Use bert to annotate with TUPA.",
+)
 def _evaluate_system_output(*args, **kwargs):
     kwargs["metrics"] = kwargs.pop("metrics").split(",")
+    kwargs["use_bert"] = kwargs.pop("use_bert")
     metrics_scores = evaluate_system_output(*args, **kwargs)
 
     def recursive_round(obj):
@@ -140,8 +136,7 @@ def evaluate_system_output(
     tokenizer="13a",
     lowercase=True,
     metrics=DEFAULT_METRICS,
-    analysis=False,
-    quality_estimation=False,
+    use_bert=False,
 ):
     """
     Evaluate a system output with automatic metrics.
@@ -170,14 +165,3 @@ def evaluate_system_output(
         )
 
     return metrics_scores
-
-
-@click.command()
-@click.option(
-    "--verbose", "-v", is_flag=True, default=False, help="Enable verbose output."
-)
-def my_script(verbose):
-    if verbose:
-        print("Verbose output is enabled.")
-    else:
-        print("Verbose output is disabled.")
