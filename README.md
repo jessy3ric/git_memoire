@@ -1,5 +1,5 @@
 # Ressources et outils pour l'évaluation des systèmes de simplification automatique des textes
- Espace GitHub dédié à l'outil reposant sur TUPA | SAMSA | EASSE pour annoter et évaluer automatiquement la simplification opérée sur un texte en français.
+ Espace GitHub dédié à l'outil reposant sur TUPA | SAMSA en se reposant sur le fonctionnement de EASSE (https://github.com/feralvam/easse/tree/master) pour annoter et évaluer automatiquement la simplification opérée sur un texte en français.
 
 ## Structure : 
 * annexes : contient tous les fichiers considérés comme des annexes (ex. : mémoire en version PDF, résultats SAMSA ***(not yet)***, documentation code, etc.)
