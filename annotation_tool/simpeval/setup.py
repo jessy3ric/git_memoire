@@ -4,8 +4,6 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-with open("requirements.txt", "r", encoding="utf-8") as f:
-    requirements = f.read().strip().split("\n")
 
 
 setup(
@@ -26,8 +24,6 @@ setup(
     author="Fernando Alva-Manchego <feralvam@gmail.com>, Louis Martin <louismartincs@gmail.com>, Jessy Nierichlo <jessynchl@gmail.com>,",
     url="https://github.com/jessy3ric/git_memoire/tree/main/annotation_tool",
     packages=find_packages(exclude=["tests"]),
-    include_package_data=True,
     test_suite="tests",
-    entry_points={"console_scripts": ["easse = easse.cli:cli"]},
-    install_requires=requirements,
+    entry_points={"console_scripts": ["simpeval = simpeval.cli:cli"]},
 )
