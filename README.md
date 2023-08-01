@@ -2,13 +2,15 @@
  Espace GitHub dédié à l'outil reposant sur TUPA | SAMSA en se reposant sur le fonctionnement de EASSE (https://github.com/feralvam/easse/tree/master) pour annoter et évaluer automatiquement la simplification opérée sur un texte en français.
 
 ## Structure : 
-* annexes : contient tous les fichiers considérés comme des annexes (ex. : mémoire en version PDF, résultats SAMSA ***(not yet)***, documentation code, etc.)
+* annexes : contient tous les fichiers considérés comme des annexes (ex. : mémoire en version PDF, résultats SAMSA ***(not yet)***, demo, etc.)
 * annotation_tool : contient tous les fichiers nécessaires pour faire fonctionner l'outil d'annotation et d'évaluation
 * corpus : contient le corpus annoté et le corpus vierge
+* utils : contient l'environnement anaconda contenant déjà la librairie simpeval et ses dépendances
 
+## Installer simpeval :
 
-## Comment installer simpeval ?
 **Python 3.7 requis**
+
 ### Première méthode :
 ```
 git clone https://github.com/jessy3ric/git_memoire.git
