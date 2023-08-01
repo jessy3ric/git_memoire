@@ -8,6 +8,7 @@
 
 
 ## Comment installer simpeval ?
+**Python 3.7 requis**
 ### Première méthode :
 ```
 git clone https://github.com/jessy3ric/git_memoire.git
