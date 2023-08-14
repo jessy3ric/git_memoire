@@ -9,7 +9,7 @@ from ucca.core import Passage
 import ucca.convert
 
 from simpeval.utils.constants import UCCA_PARSER_PATH, UCCA_BERT_PARSER_PATH
-from simpeval.utils.resources import dowload_ucca_model, update_ucca_path
+from simpeval.utils.resources import download_ucca_model, update_ucca_path
 
 
 @contextmanager
@@ -23,9 +23,9 @@ def mock_sys_argv(argv):
 @lru_cache(maxsize=1)
 def get_parser(use_bert=False):
     if not UCCA_PARSER_PATH.parent.exists() and use_bert is False:
-        dowload_ucca_model()
+        download_ucca_model()
     elif not UCCA_BERT_PARSER_PATH.parent.exists() and use_bert is True:
-        dowload_ucca_model(use_bert=use_bert)
+        download_ucca_model(use_bert=use_bert)
     update_ucca_path()
     with mock_sys_argv([""]):
         # Need to mock sysargs otherwise the parser will use try to use them and throw an exception
@@ -44,6 +44,7 @@ def ucca_parse_texts(texts: List[str], use_bert=False):
     parsed_passages = [
         passage for (passage, *_) in parser.parse(passages, display=False)
     ]
+    print(f"\n\n PARSED PASSAGES {parsed_passages} \n\n")
     return parsed_passages
 
 

@@ -13,7 +13,6 @@ import importlib
 from simpeval.utils.constants import (
     STANFORD_CORENLP_DIR,
     UCCA_DIR,
-    TOOLS_DIR,
     UCCA_PARSER_PATH,
     UCCA_BERT_PARSER_PATH,
     UCCA_BERT_DIR,
@@ -91,7 +90,7 @@ def update_ucca_path(use_bert=False):
         json.dump(config_json, f)
 
 
-def dowload_ucca_model(use_bert=False):
+def download_ucca_model(use_bert=False):
     url = "https://github.com/huji-nlp/tupa/releases/download/v1.3.10/ucca-bilstm-1.3.10-fr.tar.gz"
     if use_bert:
         url = "https://github.com/huji-nlp/tupa/releases/download/v1.4.0/bert_multilingual_layers_4_layers_pooling_weighted_align_sum.tar.gz"

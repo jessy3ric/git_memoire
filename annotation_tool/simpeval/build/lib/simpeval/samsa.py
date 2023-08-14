@@ -288,7 +288,7 @@ def get_samsa_sentence_scores(
     use_bert: bool = False,
 ):
     print(
-        "Warning: SAMSA metric is long to compute (120 sentences ~ 4min), disable it if you need fast evaluation."
+        "Starting SAMSA Evaluation, the process may take a few minutes to complete ..."
     )
 
     orig_sents = [

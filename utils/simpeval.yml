@@ -1,4 +1,4 @@
-name: ts1
+name: simpeval
 channels:
   - defaults
 dependencies:
@@ -30,7 +30,6 @@ dependencies:
       - docutils==0.20.1
       - dynet==2.1
       - emoji==2.7.0
-      - en-core-web-md==2.1.0
       - filelock==3.12.2
       - fonttools==4.38.0
       - fsspec==2023.1.0
@@ -108,7 +107,6 @@ dependencies:
       - torch==1.13.1
       - tqdm==4.65.0
       - transformers==4.30.2
-      - tseval==1.0
       - tupa==1.2.4
       - twine==4.0.2
       - typing-extensions==4.7.1
