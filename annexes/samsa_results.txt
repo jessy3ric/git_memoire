@@ -1,0 +1,21 @@
+CM1_sci_NICO : 19.792
+
+159_CM1_sci_perles : 7.516
+
+158_CM1_sci_orig_chocolat : 13.234
+
+157_CM1_sci_orig_arbres : 13.158
+
+156_CM1_sci_orig_ecureuil : 8.796
+
+145_CM1_litt_orig_sources : 14.269
+
+144_CM1_litt_orig_crinblanc : 47.399
+
+143_CM1_litt_orig_dragonneminuit : 14.29
+
+142_CM1_litt_orig_oeilduloup : 24.187
+
+24_CE1_sci_orig_moulin : 20.417
+
+23_CE1_sci_orig_herisson : 44.42
