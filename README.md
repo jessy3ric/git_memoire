@@ -11,6 +11,8 @@
 
 **Python 3.7 requis**
 
+**L'installation peut prendre une dizaine voire une quinzaine de minutes**
+
 ### Première méthode :
 ```
 git clone https://github.com/jessy3ric/git_memoire.git
