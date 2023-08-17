@@ -25,3 +25,25 @@ pip install -e .
 ```
 pip install simpeval
 ```
+
+
+
+### Sources :
+
+```
+@inproceedings{alva-manchego-etal-2019-easse,
+    title = "{EASSE}: {E}asier Automatic Sentence Simplification Evaluation",
+    author = "Alva-Manchego, Fernando  and
+      Martin, Louis  and
+      Scarton, Carolina  and
+      Specia, Lucia",
+    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP): System Demonstrations",
+    month = nov,
+    year = "2019",
+    address = "Hong Kong, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/D19-3009",
+    doi = "10.18653/v1/D19-3009",
+    pages = "49--54",
+}
+```
