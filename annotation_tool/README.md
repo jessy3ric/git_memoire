@@ -5,11 +5,9 @@
 
 # Installation de l'Outil
 ## 1. Installation de l'environnement Anaconda
-Pour obtenir rapidement un outil opérationnel, l'installation d'Anaconda est nécessaire. Sans cette plateforme, le téléchargement de l'environnement proposé ne sera pas possible. Nous avons opté pour Anaconda en raison de contraintes techniques, car d'autres méthodes telles que virtualenv pour Python n'ont pas fonctionné. Pour installer l'environnement contenant Simpeval, exécutez les commandes suivantes :
+Pour obtenir rapidement un outil opérationnel, l'installation d'Anaconda est très recommandé. Nous avons opté pour Anaconda en raison de contraintes techniques, car d'autres méthodes telles que virtualenv pour Python n'ont pas fonctionné. Pour installer l'environnement contenant Simpeval, exécutez les commandes suivantes :
 
 ```
-conda activate simpeval
-conda env export > simpeval.yml
 conda env create -n ENVNAME --file simpeval.yml
 ```
 
@@ -23,7 +21,7 @@ L'environnement Anaconda fourni contient les bibliothèques nécessaires à l'ex
 pip install tupa[bert]
 pip install samsa
 ```
-
+**La plupart des dépendances seront déja installées lors du `pip install -e .` effectué dans le dossier root**
 Certaines bibliothèques, comme TUPA, nécessitent d'autres bibliothèques, par exemple UCCA, pour l'annotation automatique des textes. La version de Python disponible dans l'environnement Anaconda est 3.7, car certaines bibliothèques, comme DyNET, sont incompatibles avec les versions ultérieures. Si vous installez Simpeval en dehors de l'environnement fourni, créez un environnement spécifique à l'outil.
 
 Une liste des prérequis pour faire fonctionner l'outil est disponible sur le dépôt GitHub associé à ce projet. Le fichier contenant les bibliothèques nécessaires est au format cfg15, utilisé pour la configuration de l'installation avec pip.
